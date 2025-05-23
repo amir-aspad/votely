@@ -29,8 +29,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # my app
+    'panel.apps.PanelConfig',
 
-    # thir party app
+    # third party app
     'rest_framework',
 ]
 
