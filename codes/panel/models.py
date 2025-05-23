@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.db import models
 from utils.validations import validate_phone, validate_username
+from django.db import models
+
+from .managers import UserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -16,7 +18,6 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     created_at = models.DateTimeField(auto_now_add=True)
 
-
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_email_verified = models.BooleanField(default=False)
@@ -25,6 +26,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'phone'
     REQUIRED_FIELDS = ['email', 'username']
+
+    objects = UserManager()
 
     @property
     def is_staff(self):
