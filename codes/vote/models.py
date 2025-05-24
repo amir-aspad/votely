@@ -14,15 +14,15 @@ class Poll(models.Model):
     ]
 
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='polls')
-    title = models.CharField(max_length=255)
-    description = models.TextField(max_length=700, blank=True, null=True)
+    title = models.CharField(max_length=100)
+    description = models.TextField(max_length=500, blank=True, null=True)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     is_active = models.BooleanField(default=True)
     type = models.CharField(max_length=10, choices=POLL_TYPE_CHOICES, default=PUBLIC)
 
     def __str__(self):
-        return self.title
+        return self.title[:50]
 
     def is_open(self):
         """
@@ -68,7 +68,7 @@ class PollAllowedUser(models.Model):
 
 class Choice(models.Model):
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name='choices')
-    text = models.CharField(max_length=255)
+    text = models.CharField(max_length=120)
     votes_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
@@ -78,7 +78,7 @@ class Choice(models.Model):
 class Vote(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='votes')
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE, related_name='votes')
-    Choice = models.ForeignKey(Choice, on_delete=models.CASCADE, related_name='votes')
+    choice = models.ForeignKey(Choice, on_delete=models.CASCADE, related_name='votes')
     voted_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
