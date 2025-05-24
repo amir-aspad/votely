@@ -31,3 +31,7 @@ class RegisterUserSerializer(serializers.Serializer):
             raise ValidationError('this phone is already exists')
     
         return value
+    
+
+class VerifyPhoneCodeSerializer(serializers.Serializer):
+    code = serializers.IntegerField()
