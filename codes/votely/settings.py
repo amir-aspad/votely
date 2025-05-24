@@ -1,6 +1,7 @@
 from pathlib import Path
 from environ import Env
 
+
 env = Env()
 env.read_env()
 
@@ -30,6 +31,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # my app
+    'panel.apps.PanelConfig',
     'vote.apps.VoteConfig',
 
     # third party app
@@ -118,3 +120,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# config for user model
+AUTH_USER_MODEL = 'panel.user'
