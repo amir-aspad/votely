@@ -63,7 +63,8 @@ class Profile(models.Model):
     
 
 class OTP(models.Model):
-    phone = models.CharField(max_length=11, unique=True)
+    EXPIRE_TIME = 5
+    phone = models.CharField(max_length=11, unique=True, validators=[validate_phone])
     code = models.CharField(max_length=6)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -72,4 +73,4 @@ class OTP(models.Model):
         return self.phone
     
     def is_expired(self):
-        return timezone.now() > self.created + timedelta(minutes=5)
+        return timezone.now() > self.created + timedelta(minutes=self.EXPIRE_TIME)
