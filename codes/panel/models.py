@@ -58,3 +58,13 @@ class Profile(models.Model):
     
     def __str__(self):
         return f'{self.user}'
+    
+
+class OTP(models.Model):
+    phone = models.CharField(max_length=11)
+    code = models.CharField(max_length=6)
+    created = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return self.phone
