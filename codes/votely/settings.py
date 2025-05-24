@@ -123,3 +123,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # config for user model
 AUTH_USER_MODEL = 'panel.user'
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'panel.authentication.UsernameAuthentivate',  
+    'panel.authentication.EmailAuthentivate',  
+]
+
+
+# REST_FRAMEWORK config
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
