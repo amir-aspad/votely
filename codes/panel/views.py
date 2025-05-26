@@ -67,7 +67,7 @@ class RegisterUserView(APIView):
             # send code for user phone number
             send_phone_verification_code(phone=phone, code=code)
             
-            return Response({'message': 'Code successfully sent'}, status=status.HTTP_201_CREATED)
+            return Response({'detail': 'Code successfully sent'}, status=status.HTTP_201_CREATED)
         return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
@@ -81,7 +81,7 @@ class RegisterVerifyCodeView(APIView):
             data = request.session.get('user_registration_info')
             
             if not data:
-                return Response({'message': 'Session expired or invalid'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'detail': 'Session expired or invalid'}, status=status.HTTP_400_BAD_REQUEST)
             
             try:
                 otp_code = OTP.objects.get(phone=data['phone'], code=vd['code'])
@@ -98,8 +98,8 @@ class RegisterVerifyCodeView(APIView):
                     del request.session['user_registration_info']
                     otp_code.delete()
 
-                    return Response({'message': 'User created successfully'}, status=status.HTTP_201_CREATED)
-                return Response({'message': 'Code has expired'}, status=status.HTTP_400_BAD_REQUEST)
+                    return Response({'detail': 'User created successfully'}, status=status.HTTP_201_CREATED)
+                return Response({'detail': 'Code has expired'}, status=status.HTTP_400_BAD_REQUEST)
             except OTP.DoesNotExist:
-                return Response({'message': 'Invalid verification code'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'detail': 'Invalid verification code'}, status=status.HTTP_400_BAD_REQUEST)
         return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)

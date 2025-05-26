@@ -1,11 +1,17 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 
+# import from vote app
+from .managers import ActivePollManager
 
 User = get_user_model()
 
 
 class Poll(models.Model):
+    class Meta:
+        ordering = ('-created', )
+
+
     PUBLIC = 'public'
     PRIVATE = 'private'
     POLL_TYPE_CHOICES = [
@@ -16,13 +22,23 @@ class Poll(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='polls')
     title = models.CharField(max_length=100)
     description = models.TextField(max_length=500, blank=True, null=True)
+
+    # datetime field
+    created = models.DateTimeField(auto_now_add=True)
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
+    
     is_active = models.BooleanField(default=True)
     type = models.CharField(max_length=10, choices=POLL_TYPE_CHOICES, default=PUBLIC)
 
+
+    # set config for model
+    objects = models.Manager()
+    config = ActivePollManager()
+
     def __str__(self):
         return self.title[:50]
+    
 
     def is_open(self):
         """
