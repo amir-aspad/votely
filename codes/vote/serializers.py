@@ -15,3 +15,17 @@ class ListingPollSerializer(serializers.ModelSerializer):
             'id', 'title', 'end_time', 'start_time', 'count',
             'creator_username', 'creator_profile_picture'
         )
+
+    
+class PollActionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Poll
+        fields = ('title', 'description', 'start_time', 'end_time', 'type', 'is_active')
+
+
+    def create(self, validated_data):
+        request = self.context['request']
+        return Poll.objects.create(
+            creator=request.user,
+            **validated_data
+        )

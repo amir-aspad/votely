@@ -1,10 +1,14 @@
-from rest_framework import views
+from rest_framework.response import Response
+from rest_framework import views, status
+from rest_framework import permissions
 
 # import from django
 from django.db.models import Count
 
 # import from vote app
-from .serializers import ListingPollSerializer
+from .serializers import(
+    ListingPollSerializer, PollActionSerializer
+)
 from .models import Poll
 
 # import from utils
@@ -25,4 +29,16 @@ class ListingAllPollView(views.APIView):
         data = ListingPollSerializer(result_page, many=True)
 
         return paginate.get_paginated_response(data.data)
-        
+    
+
+class CreatePollView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        ser_data = PollActionSerializer(data=request.data, context={'request':request})
+
+        if ser_data.is_valid():
+            ser_data.save()
+
+            return Response(ser_data.data, status=status.HTTP_200_OK)
+        return Response(ser_data.errors, status=status.HTTP_400_BAD_REQUEST)
