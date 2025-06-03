@@ -27,9 +27,7 @@ The name **Votely** is a combination of the word **"Vote"** and the suffix **"-l
 
 ```bash
 git clone https://github.com/yourusername/votely.git
-cd votely
-python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
-pip install -r requirements.txt
+cd votely
 python manage.py migrate
 python manage.py runserver
