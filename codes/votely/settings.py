@@ -1,6 +1,7 @@
 from pathlib import Path
 from environ import Env
 
+
 env = Env()
 env.read_env()
 
@@ -29,8 +30,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # my app
+    'panel.apps.PanelConfig',
 
-    # thir party app
+    # third party app
     'rest_framework',
 ]
 
@@ -116,3 +119,20 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# config for user model
+AUTH_USER_MODEL = 'panel.user'
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'panel.authentication.UsernameAuthentivate',  
+    'panel.authentication.EmailAuthentivate',  
+]
+
+
+# REST_FRAMEWORK config
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
